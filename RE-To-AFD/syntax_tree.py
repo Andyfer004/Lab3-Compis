@@ -1,5 +1,3 @@
-# syntax_tree.py
-
 from utils import is_operand
 import graphviz
 
