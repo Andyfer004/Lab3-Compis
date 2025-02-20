@@ -75,3 +75,44 @@ Ejemplo:
 
 ---
 
+### **5. Generación del AFD**
+
+- Se crean los estados del AFD utilizando `generate_afd` en `afd_generator.py`.
+- Se define un estado inicial a partir de `firstpos` de la raíz.
+- Se iteran las transiciones según `followpos`.
+
+Ejemplo:
+
+  ```python
+  from afd_generator import generate_afd
+  afd, afd_dict = generate_afd(root, positions, followpos)
+  ```
+
+**Estados del AFD generados:**
+
+  ```markdown
+  A = {1, 2, 3}
+  B = {1, 2, 4}
+  C = {5}
+  D = {6} (Estado de aceptación)
+  ```
+
+El AFD se guarda como una imagen en `regex-images-afddirect/` usando Graphviz.
+
+---
+
+### **6. Minimización del AFD**
+
+- Se usa `minimize_afd` en `afd_minimizer.py` para reducir el número de estados.
+
+Ejemplo:
+
+  ```python
+  from afd_minimizer import minimize_afd
+  minimized_afd = minimize_afd(afd_dict)
+  ```
+
+El AFD minimizado también se almacena en `regex-images-afddirect/`.
+
+---
+
