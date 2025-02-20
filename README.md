@@ -1,3 +1,9 @@
+# REFERENCIAS
+Proyecto base: https://github.com/ElrohirGT/RegExpAutomata
+
+Computerphile. (2018, October 30). Regular Expressions: How do they work? [Video]. YouTube. https://www.youtube.com/watch?v=gjIDl44-omU
+
+
 # Construcción de un DFA directamente desde una Expresión Regular (r.e)
 
 ## Expresión Regular
