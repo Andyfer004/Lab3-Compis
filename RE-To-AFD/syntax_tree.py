@@ -71,7 +71,7 @@ def generate_ast_graph(root):
     dot = graphviz.Digraph('AST')
 
     def add_nodes(node, parent_id=None):
-    """Recorre el arbol y agrega nodos al grafico"""
+        """Recorre el arbol y agrega nodos al grafico"""
         if node:
             node_id = str(id(node))
             label = f"{node.value}"
