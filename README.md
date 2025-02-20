@@ -116,3 +116,41 @@ El AFD minimizado también se almacena en `regex-images-afddirect/`.
 
 ---
 
+### **7. Simulación del AFD**
+
+- La función `validate_string` en `validator.py` verifica si una cadena es aceptada por el AFD.
+
+Ejemplo:
+
+  ```python
+  from validator import validate_string
+  resultado = validate_string(afd_dict, "abb")
+  print(resultado)  # True (Cadena aceptada)
+  ```
+
+---
+
+### **8. Generación Visual de los Autómatas**
+
+- Se usan funciones de Graphviz en `syntax_tree.py`, `afd_generator.py` y `afd_minimizer.py` para graficar:
+  - `generate_ast_graph(root)`: Genera el árbol sintáctico.
+  - `generate_afd(root, positions, followpos)`: Genera el AFD.
+  - `minimize_afd(afd_dict)`: Genera el AFD minimizado.
+
+Los diagramas se almacenan en `regex-images-afddirect/`.
+
+---
+
+## **Resumen**
+
+1. Se ingresa una expresión regular en `main.py`.
+2. `to_postfix` en `regex_parser.py` la convierte a notación postfix.
+3. `build_syntax_tree` en `syntax_tree.py` genera el árbol sintáctico.
+4. `compute_followpos` en `afd_generator.py` calcula los `followpos`.
+5. `generate_afd` en `afd_generator.py` construye el AFD.
+6. `minimize_afd` en `afd_minimizer.py` minimiza el AFD.
+7. `validate_string` en `validator.py` permite simular la validación de cadenas.
+8. Se crean representaciones visuales con Graphviz.
+
+Este procedimiento ilustra cómo derivar un DFA directamente desde una expresión regular utilizando el árbol sintáctico y la construcción directa del AFD.
+
