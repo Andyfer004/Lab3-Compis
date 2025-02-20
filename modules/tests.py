@@ -4,40 +4,44 @@ from shunYard import toPostFix
 from regexpToAFN import toAFN, newAFN
 from AFNToAFD import fromAFNToAFD
 
-# All tests will be added to this file!
-
-
+# Pruebas para el Shunting Yard
 class TestShuntingYard(unittest.TestCase):
+    """Caso simple: Concatenación directa"""
     def test_basic_example(self):
         infix = "ab"
         expected = "ab."
         actual = toPostFix(infix)
         self.assertEqual(actual, expected)
 
+    """Caso de OR y Kleene (*)"""
     def test_class_example(self):
         infix = "_+a*b"
         expected = "_a*b.+"
         actual = toPostFix(infix)
         self.assertEqual(actual, expected)
 
+    """Caso de parentesis y union"""
     def test_class_example(self):
         infix = "(0+1)*11(0+1)*"
         expected = "01+*1.1.01+*."
         actual = toPostFix(infix)
         self.assertEqual(actual, expected)
 
+    """Caso de Kleene y concatenaciones"""
     def test_class_example(self):
         infix = "a(a+ab*)*"
         expected = "aaab*.+*."
         actual = toPostFix(infix)
         self.assertEqual(actual, expected) 
 
+    """Caso con multiples operaciones *"""
     def test_class_example(self):
         infix = "a*b*c*"
         expected = "a*b*.c*."
         actual = toPostFix(infix)
         self.assertEqual(actual, expected)
-    
+
+    """ Caso de digitos y Kleene"""
     def test_class_example(self):
         infix = "0(0+1+2)*2"
         expected = "001+2+*.2."
@@ -45,14 +49,17 @@ class TestShuntingYard(unittest.TestCase):
         self.assertEqual(actual, expected)  
 
 
+# Pruebas de conversión de AFN
 class TestRegexToAFN(unittest.TestCase):
-    def test_basic_regexp(self):
+     def test_basic_regexp(self):
+        """Caso básico: Concatenación de 'ab'"""
         postfix = "ab."
         expected = newAFN([{"a": [1]}, {"_": [2]}, {"b": [3]}, {}], 3)
         actual = toAFN(postfix)
         self.assertEqual(actual, expected)
 
     def test_or_regexp(self):
+        """Caso de operación OR"""
         postfix = "ab+"
         expected = newAFN(
             [{"_": [2, 4]}, {}, {"a": [3]}, {"_": [1]}, {"b": [5]}, {"_": [1]}], 1
@@ -60,13 +67,15 @@ class TestRegexToAFN(unittest.TestCase):
         actual = toAFN(postfix)
         self.assertEqual(actual, expected)
 
-    def test_0_or_more_regepx(self):
+    def test_kleene_regexp(self):
+        """Caso de cerradura de Kleene (*)"""
         postfix = "a*"
         expected = newAFN([{"_": [1, 2]}, {}, {"a": [3]}, {"_": [1, 2]}], 1)
         actual = toAFN(postfix)
         self.assertEqual(actual, expected)
 
     def test_and_or_regexp(self):
+        """Caso con concatenación y OR"""
         postfix = "ab.a+"
         expected = newAFN(
             [
@@ -84,7 +93,8 @@ class TestRegexToAFN(unittest.TestCase):
         actual = toAFN(postfix)
         self.assertEqual(actual, expected)
 
-    def test_class_example(self):
+    def test_complex_expression(self):
+        """Expresión compleja con *, concatenación y OR"""
         self.maxDiff = None
         postfix = "a*b._+"
         expected = newAFN(

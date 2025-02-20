@@ -6,6 +6,9 @@ type AFDTransitions = dict[AFDState, dict[str, AFDState]]
 
 
 def fromAFNToAFD(afn):
+    """
+    Convierte nuestro AFN en un AFD haciendo el algoritmo de los conjuntos
+    """
     afdTransitions: AFDTransitions = {}
     closure, inputs = findClosure(afn, 0, set(()))
     travelAFN(afn, frozenset(closure), frozenset(inputs), afdTransitions)
@@ -23,7 +26,11 @@ def travelAFN(
     closure: frozenset,
     inputs: frozenset,
     stateTransitions: AFDTransitions,
-):
+):  
+
+    """
+    Se explora el AFN y construye las transiciones del AFD
+    """
     if closure in stateTransitions:
         return
 

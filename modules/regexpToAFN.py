@@ -3,10 +3,14 @@ type AFNState = int
 
 
 def toAFN(postfix: str):
+
+    """ 
+    Se convierte la expresion regular a notacion de tipo postfix a un automata finito no determinista
+    """
     stack = []
     for char in postfix:
         match char:
-            case ".":  # Concatenate
+            case ".":  # Concatenacion de AFNs
                 afn2 = stack.pop()
                 afn1 = stack.pop()
 
@@ -19,15 +23,14 @@ def toAFN(postfix: str):
                     afn1["transitions"][afn1Accepted], "_", afn1OriginalLength
                 )
 
-                # Map AFN2 transitions to start at the end of AFN1
-                mappedAFN2Transitions = displaceTransitions(afn2, afn1OriginalLength)
+                # Ajustar los indices índices de los estados de afn2 y unir sus transiciones
                 afn1["transitions"] += mappedAFN2Transitions
 
-                # Set new accepted
+                # Actualizar el estado de aceptacion 
                 afn1["accepted"] = newAccepted
                 stack.append(afn1)
 
-            case "+":  # Logical OR
+            case "+":  # Union (OR) de dos AFNs
                 afn2 = stack.pop()
                 afn1 = stack.pop()
 
@@ -49,7 +52,7 @@ def toAFN(postfix: str):
                 afn["transitions"] += mappedAFN1Transitions
                 stack.append(afn)
 
-            case "*":  # 0 or more
+            case "*":  # Cerradura de Kleene (0 o más repeticiones)
                 received = stack.pop()
 
                 afn = newAFN([{"_": [1, 2]}, {}], 1)
@@ -69,12 +72,19 @@ def toAFN(postfix: str):
 
 
 def initializeOrAppend(dictionary: dict, key: str, append):
+    """
+    Agrega un valor a una clave en un diccionario. Si la clave no existe la inicializa
+    """
     if key not in dictionary:
         dictionary[key] = []
     dictionary[key].append(append)
 
 
 def displaceTransitions(afn, delta: int):
+
+    """
+    Como su nombre lo dice desplaza los indices de los estados en un AFN para evitar las colisones al unir los automatas.
+    """
     return [
         {
             word: [d + delta for d in destinations]
@@ -85,6 +95,10 @@ def displaceTransitions(afn, delta: int):
 
 
 def newAFN(transitions: AFNTransitions, accepted: AFNState):
+
+    """
+    Crea el AFN con la estructura basica. 
+    """
     return {
         "transitions": transitions,
         "accepted": accepted,

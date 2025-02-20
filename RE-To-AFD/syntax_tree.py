@@ -2,6 +2,18 @@ from utils import is_operand
 import graphviz
 
 class Node:
+    """Clase que representa un nodo en el arbol de sintaxis 
+
+    Atributos:
+    - value (str): Símbolo representado por el nodo.
+    - left (Node): Hijo izquierdo (para operadores binarios).
+    - right (Node): Hijo derecho (para operadores binarios).
+    - firstpos (set): Conjunto de posiciones iniciales del nodo.
+    - lastpos (set): Conjunto de posiciones finales del nodo.
+    - nullable (bool): Indica si el nodo puede derivar en una cadena vacía.
+    - position (int | None): Posición del nodo en la expresión regular.
+    
+    """
     def __init__(self, value, left=None, right=None):
         self.value = value
         self.left = left
@@ -12,6 +24,8 @@ class Node:
         self.position = None
 
 def build_syntax_tree(postfix):
+
+    """Construye un Arbol de sintaxis (AST) a partir de una expresion regular ya estando en postfix"""
     stack = []
     position = 1
     positions = {}
@@ -52,9 +66,12 @@ def build_syntax_tree(postfix):
     return stack[0], positions
 
 def generate_ast_graph(root):
+
+    """Genera el grafico del arbol de sintaxis usando Graphviz"""
     dot = graphviz.Digraph('AST')
 
     def add_nodes(node, parent_id=None):
+    """Recorre el arbol y agrega nodos al grafico"""
         if node:
             node_id = str(id(node))
             label = f"{node.value}"
